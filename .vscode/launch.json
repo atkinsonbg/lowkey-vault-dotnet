@@ -15,9 +15,9 @@
             "console": "internalConsole",
             "stopAtEntry": false,
             "env": {
-                "KEY_VAULT_BASE_URL": "https://localhost:8443",
                 "IDENTITY_ENDPOINT": "http://localhost:8080/metadata/identity/oauth2/token",
-                "IDENTITY_HEADER": "header"
+                "IDENTITY_HEADER": "header",
+                "KEY_VAULT_URI": "https://localhost:8443/"
             }
         },
         {

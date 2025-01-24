@@ -3,7 +3,9 @@ using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 
 // this is the URL for the default Key Vault running in the lowkey-vault container
-const string kvUri = "https://localhost:8443/";
+string kvUri = Environment.GetEnvironmentVariable("KEY_VAULT_URI")!;
+
+#region THIS IS DONE IN BUILDER/DI IN APP STARTUP
 
 // define a custom HttpClientHandler that will ignore SSL violations
 // HERE BE DRAGONS!!!!! DO NOT USE THIS IN A LIVE ENVIRONMENT, THIS IS FOR LOCAL/TESTING ONLY
@@ -20,6 +22,8 @@ var options = new SecretClientOptions
     DisableChallengeResourceVerification = true,
     Transport = new HttpClientTransport(new HttpClient(handler))
 };
+
+#endregion
 
 // create the SecretClient using the options we just defined, this will now talk to the local lowkey-vault container without errors
 // this code should look identical to your current Production code
