@@ -1,0 +1,38 @@
+services:
+  dozzle:
+    container_name: dozzle
+    image: amir20/dozzle:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8888:8080
+
+  lowkey-vault:
+    container_name: lowkey-vault
+    image: nagyesta/lowkey-vault:2.8.0
+    ports:
+      - "8443:8443"
+      - "8080:8080"
+    volumes:
+      - ./.lowkey-vault/import:/import/:rw
+    environment:
+      LOWKEY_ARGS: >
+        --LOWKEY_VAULT_NAMES=- 
+        --LOWKEY_DEBUG_REQUEST_LOG=true 
+        --LOWKEY_IMPORT_LOCATION=/import/keyvault.json.hbs 
+        --LOWKEY_IMPORT_TEMPLATE_HOST=localhost 
+        --LOWKEY_IMPORT_TEMPLATE_PORT=8443
+
+  assumed-identity:
+    container_name: assumed-identity
+    image: nagyesta/assumed-identity:1.2.61
+    networks:
+      assumed-id-net:
+        ipv4_address: 169.254.169.254
+        
+networks:
+  assumed-id-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 169.254.0.0/16
