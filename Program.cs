@@ -38,3 +38,8 @@ Console.WriteLine($"{newSecretName} was fetched, its value is: {newSecret.Value.
 const string preLoadedSecretName = "secret-name";
 var preloadedSecret = await client.GetSecretAsync(preLoadedSecretName);
 Console.WriteLine($"{preLoadedSecretName} was preloaded into the container, its value is: {preloadedSecret.Value.Value}");
+
+// get a pre-loaded secret to ensure seeding is working
+const string preLoadedDbSecretName = "team-db-password";
+var preloadedDbSecret = await client.GetSecretAsync(preLoadedDbSecretName);
+Console.WriteLine($"{preLoadedDbSecretName} was preloaded into the container, its value is: {preloadedDbSecret.Value.Value}");
